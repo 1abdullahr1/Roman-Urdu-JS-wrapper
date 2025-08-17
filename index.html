@@ -2,26 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Roman Urdu JS Demo</title>
+  <title>Roman Urdu JS App</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
       padding: 20px;
+      background: #f4f4f4;
     }
-    textarea {
+    #editor {
       width: 100%;
       height: 200px;
       font-family: monospace;
       margin-bottom: 10px;
     }
     button {
-      padding: 10px 20px;
+      padding: 10px 15px;
+      background: #0078d7;
+      color: white;
       border: none;
       border-radius: 5px;
-      background: #0078d7;
-      color: #fff;
-      font-size: 16px;
       cursor: pointer;
     }
     pre {
@@ -30,83 +29,41 @@
       padding: 10px;
       border-radius: 5px;
       min-height: 100px;
-      overflow-x: auto;
     }
   </style>
 </head>
 <body>
-  <h1>Roman Urdu JS Demo</h1>
-  <p>Write your Roman Urdu code below and run it:</p>
-  <textarea id="editor">likho('Assalamu Alaikum!');
-bolo n = 5;
-agar (n bara 3) {
-  likho('n bara hai 3 se');
+  <h1>Roman Urdu JS Wrapper</h1>
+  <p>Write your Roman Urdu code and click Run:</p>
+
+  <textarea id="editor">likho('Roman Urdu App chal raha hai!');
+bolo x = 10;
+agar (x bara 5) {
+  likho('x 5 se bara hai');
 } warna {
-  likho('n chhota ya barabar hai 3 se');
+  likho('x chhota ya barabar hai');
 }</textarea>
   <br>
-  <button onclick="runCode()">Run Roman Urdu Code</button>
+  <button id="runBtn">Run Code</button>
   <h2>Output:</h2>
   <pre id="output"></pre>
 
+  <!-- Import the wrapper library -->
+  <script src="roman-urdu-js-wrapper.js"></script>
   <script>
-    // Minimal embed of wrapper (from roman-urdu-js-wrapper.js)
-    const ROMAN_MAP = {
-      'likho': 'console.log',
-      'agar': 'if',
-      'warna': 'else',
-      'jabtak': 'while',
-      'wapas': 'return',
-      'karo': 'function',
-      'aur': '&&',
-      'ya': '||',
-      'nahin': '!',
-      'barabar': '===',
-      'bara': '>',
-      'chhota': '<',
-      'bolo': 'let',
-      'muqarrar': 'const',
-      'seedha': 'true',
-      'ghalat': 'false',
-      'ke_liye': 'for'
-    };
-
-    function escapeRegExp(str) {
-      return str.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&');
-    }
-    const RULES = Object.entries(ROMAN_MAP).map(([k, v]) => {
-      return { pattern: new RegExp('\\b' + escapeRegExp(k) + '\\b', 'gi'), replacement: v };
-    });
-
-    function transpileRoman(code) {
-      let out = code;
-      for (const r of RULES) {
-        out = out.replace(r.pattern, r.replacement);
-      }
-      return out;
-    }
-
-    function runRoman(code) {
-      const js = transpileRoman(code);
+    document.getElementById('runBtn').addEventListener('click', () => {
+      const romanCode = document.getElementById('editor').value;
       const oldLog = console.log;
       let logs = [];
-      console.log = (...args) => {
-        logs.push(args.join(' '));
-      };
+      console.log = (...args) => logs.push(args.join(' '));
       try {
-        new Function(js)();
+        runRoman(romanCode);
       } catch (e) {
         logs.push('Error: ' + e.message);
       }
       console.log = oldLog;
-      return logs.join('\n');
-    }
-
-    function runCode() {
-      const romanCode = document.getElementById('editor').value;
-      const output = runRoman(romanCode);
-      document.getElementById('output').textContent = output;
-    }
+      document.getElementById('output').textContent = logs.join('\n');
+    });
   </script>
 </body>
 </html>
