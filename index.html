@@ -8,6 +8,12 @@
       font-family: Arial, sans-serif;
       padding: 20px;
       background: #f4f4f4;
+      color: #222;
+      transition: background 0.3s, color 0.3s;
+    }
+    body.dark {
+      background: #121212;
+      color: #eee;
     }
     #editor {
       width: 100%;
@@ -17,11 +23,15 @@
     }
     button {
       padding: 10px 15px;
+      margin: 5px 5px 5px 0;
       background: #0078d7;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+    }
+    button:hover {
+      opacity: 0.9;
     }
     pre {
       background: #222;
@@ -30,12 +40,39 @@
       border-radius: 5px;
       min-height: 100px;
     }
+    footer {
+      margin-top: 20px;
+      font-size: 14px;
+      text-align: center;
+    }
+    a.github-link {
+      display: inline-block;
+      margin: 10px 0;
+      padding: 8px 12px;
+      background: #24292e;
+      color: #fff;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+    a.github-link:hover {
+      background: #444;
+    }
   </style>
 </head>
 <body>
   <h1>Roman Urdu JS Wrapper</h1>
-  <p>Write your Roman Urdu code and click Run:</p>
+  <p>
+    Ye project banaya gaya hai sirf ye dikhane ke liye 
+    ke programming languages "jadui cheez" nahi hoti.  
+    Ye bas predefined words aur rules hote hain jo insaan 
+    ne banaye hain taake asaan aur simple coding ki ja sake.
+  </p>
 
+  <a class="github-link" href="https://github.com/1abdullahr1/Roman-Urdu-JS-wrapper/blob/main/README.md" target="_blank">
+    📖 Read Documentation
+  </a>
+
+  <br><br>
   <textarea id="editor">likho('Roman Urdu App chal raha hai!');
 bolo x = 10;
 agar (x bara 5) {
@@ -44,7 +81,9 @@ agar (x bara 5) {
   likho('x chhota ya barabar hai');
 }</textarea>
   <br>
-  <button id="runBtn">Run Code</button>
+  <button id="runBtn">▶ Run Code</button>
+  <button id="themeBtn">🌙 Toggle Dark Theme</button>
+
   <h2>Output:</h2>
   <pre id="output"></pre>
 
@@ -64,6 +103,14 @@ agar (x bara 5) {
       console.log = oldLog;
       document.getElementById('output').textContent = logs.join('\n');
     });
+
+    document.getElementById('themeBtn').addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+    });
   </script>
+
+  <footer>
+    Made with ❤️ in Pakistan 🇵🇰 by Abdullah
+  </footer>
 </body>
 </html>
